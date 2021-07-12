@@ -1,6 +1,6 @@
 # Cpp-projects
 
-<This project is under MIT License>
+This project is under MIT License
   
   About the project:
   * This project contains every C++ projects that I have done from the start of learning till now and it updates everytime I make a new one.
