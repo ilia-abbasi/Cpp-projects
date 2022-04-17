@@ -1,0 +1,11 @@
+Rahnama ...
+
+
+
+Be alave "+"
+
+Menha "-"
+
+Zarb "*"
+
+Taghsim "/"
