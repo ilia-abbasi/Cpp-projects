@@ -1,0 +1,4 @@
+
+first enter the file name. example: test.txt
+enter /redo/ to delete the last line.
+enter /exit/ to exit.
