@@ -1,0 +1,29 @@
+Animals: 0.01607578125 in 1
+Aliens: 0.016921875 in 1
+Plants: 0.064303125 in 1
+Life: 0.0676875‬ in 1
+Water: 0.1875 in 1
+
+O2: 50 %
+H2: 50 %
+N2: 20 %
+CO2: 15 %
+CO: 5 %
+Br2: 5 %
+Cl2: 5 %
+
+Diamond: 1.5 %
+Vanadium: 10 %
+Platinum: 10 %
+Rhodium: 10 %
+Gold: 10 %
+Palladium: 20 %
+Chromium: 20 %
+Tungsten: 20 %
+Silver: 20 %
+Nickel: 20 %
+Tin: 20 %
+Titanium: 30 %
+Iron: 30 %
+Cobalt: 40 %
+Lead: 80 %
