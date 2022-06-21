@@ -52,6 +52,9 @@ string encode(string text, string key){
 	
 	for(register int i = 0, j = 0; i < t.size(); i++){
 		
+		if(t[i] == ' ')
+			continue;
+		
 		int x,y;
 		x = toint(t[i]);
 		y = toint(k[j]);
