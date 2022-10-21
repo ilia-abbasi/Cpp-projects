@@ -61,7 +61,7 @@ string decode(string text, string key){
 		
 		if(x >= 1 and x <= 26 and y >= 1 and y <= 26){
 		
-			x -= y;
+			x -= y-1;
 			while(x < 1)
 				x += 26;
 			x += 64;
