@@ -109,14 +109,14 @@ string save_file(string t, string n){
 		name += ".txt";
 		
 		i++;
-		read.open(name.c_str());
+		read.open(name);
 		if(read){
 			read.close();
 			continue;
 		}
 		read.close();
 		
-		write.open(name.c_str());
+		write.open(name);
 		write << t;
 		write.close();
 		break;
