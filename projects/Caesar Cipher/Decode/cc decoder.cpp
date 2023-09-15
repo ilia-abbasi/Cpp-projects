@@ -20,22 +20,22 @@ int main(){
 	string text, key, cipher, name;
 	
 	while(1){
-		cout<<"Your code:\n\n";
-		getline(cin, text);
+		cout<<"Your cipher:\n\n";
+		getline(cin, cipher);
 		
 		cout<<"\nNumber of shifts:\n\n";
 		cin>> key;
 		
 		cout<<"\nResult:\n\n";
 		
-		text = raw_or_file(text);
+		cipher = raw_or_file(cipher);
 		
 		if(key == "?")
-			cipher = cc_xdecrypt(text);
+			text = cc_xdecrypt(cipher);
 		else
-			cipher = cc_decrypt(text, key);
+			text = cc_decrypt(cipher, key);
 		
-		cout << cipher << "\n\n";
+		cout << text << "\n\n";
 		cout << "Name of the file to be saved(! to cancel): ";
 		cin >> name;
 		cin.ignore();
@@ -43,7 +43,7 @@ int main(){
 		if(name == "!")
 			continue;
 		
-		cout << "Saved as " << save_file(cipher, name) << "\n--------\n\n";
+		cout << "Saved as " << save_file(text, name) << "\n--------\n\n";
 	}
 	
 	return 0;
