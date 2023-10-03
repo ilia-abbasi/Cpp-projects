@@ -6,8 +6,8 @@
 #include <fstream>
 using namespace std;
 
-char LOW[26] = { 'a' , 'b' , 'c' , 'd' , 'e', 'f' , 'g' , 'h' , 'i' , 'j' , 'k' , 'l' , 'm' , 'n' , 'o' , 'p' , 'q' , 'r' , 's' , 't' , 'u' , 'v' , 'w' , 'x' , 'y' , 'z'};
-char UPP[26] = { 'A' , 'B' , 'C' , 'D' , 'E', 'F' , 'G' , 'H' , 'I' , 'J' , 'K' , 'L' , 'M' , 'N' , 'O' , 'P' , 'Q' , 'R' , 'S' , 'T' , 'U' , 'V' , 'W' , 'X' , 'Y' , 'Z'};
+char LOW[26] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+char UPP[26] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
 string cc_encrypt(string text, int key);
 string raw_or_file(string s);
@@ -16,19 +16,17 @@ string upper(string text);
 
 int main(){
 	
-	string text, cipher, name, k;
-	int key;
+	string text, cipher, name, key;
 	
 	while(1){
 		cout<<"Your text:\n\n";
 		getline(cin, text);
 		cout<<"\nNumber of shifts:\n\n";
-		cin>> k;
+		cin>> key;
 		cout<<"\nResult:\n\n";
 		
 		text = raw_or_file(text);
-		key = stoi(k);
-		cipher = cc_encrypt(text, key);
+		cipher = cc_encrypt(text, stoi(key));
 		
 		cout << cipher << "\n\n";
 		cout << "Name of the file to be saved(! to cancel): ";
