@@ -2,63 +2,65 @@
 // Programmer : Ilia Abbasi
 
 #include <iostream>
-#include <conio.h>
 #include <string>
 #include <fstream>
-#include <sstream>
 using namespace std;
 
-char LOW[26] = { 'a' , 'b' , 'c' , 'd' , 'e', 'f' , 'g' , 'h' , 'i' , 'j' , 'k' , 'l' , 'm' , 'n' , 'o' , 'p' , 'q' , 'r' , 's' , 't' , 'u' , 'v' , 'w' , 'x' , 'y' , 'z'};
-char UPP[26] = { 'A' , 'B' , 'C' , 'D' , 'E', 'F' , 'G' , 'H' , 'I' , 'J' , 'K' , 'L' , 'M' , 'N' , 'O' , 'P' , 'Q' , 'R' , 'S' , 'T' , 'U' , 'V' , 'W' , 'X' , 'Y' , 'Z'};
+char LOW[26] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+char UPP[26] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-string decode(string text, string key);
-void xdecode(string text);
+string cc_decrypt(string text, string key);
+string cc_xdecrypt(string text);
+string raw_or_file(string s);
+string save_file(string t, string n);
 string upper(string text);
 
 int main(){
 	
-	string text;
-	string key;
+	string text, key, cipher, name;
 	
-	cout<<"Your code:\n\n";
-	getline(cin, text);
+	while(1){
+		cout<<"Your cipher:\n\n";
+		getline(cin, cipher);
+		
+		cout<<"\nNumber of shifts:\n\n";
+		cin>> key;
+		
+		cout<<"\nResult:\n\n";
+		
+		cipher = raw_or_file(cipher);
+		
+		if(key == "?")
+			text = cc_xdecrypt(cipher);
+		else
+			text = cc_decrypt(cipher, key);
+		
+		cout << text << "\n\n";
+		cout << "Name of the file to be saved(! to cancel): ";
+		cin >> name;
+		cin.ignore();
+		system("cls");
+		if(name == "!")
+			continue;
+		
+		cout << "Saved as " << save_file(text, name) << "\n--------\n\n";
+	}
 	
-	cout<<"\nNumber of shifts:\n\n";
-	cin>> key;
-	
-	cout<<"\nResult:\n\n";
-	
-	if(key == "?")
-		xdecode(text);
-	else
-		cout<< decode(text, key);
-	
-	getch();
+	return 0;
 }
 
-string decode(string text, string key){
+string cc_decrypt(string text, string key){
 	
-	string t = text;
-	int k;
+	int k = stoi(key);
+	text = upper(text);
 	
-	stringstream(key) >> k;
-	
-	ifstream read;
-	read.open(text.c_str());
-	if(read)
-		getline(read,t);
-	read.close();
-	
-	t = upper(t);
-	
-	
-	for(register int i = 0; i < t.size(); i++){
+	for(register int i = 0; i < text.size(); i++){
 		
-		if((int)t[i] < 65 or (int)t[i] > 90)
+		if((int)text[i] < 65 or (int)text[i] > 90)
 			continue;
 		
 		int temp;
-		temp = ((int)t[i]) - 65;
+		temp = ((int)text[i]) - 65;
 		temp -= k;
 		
 		while(temp < 0)
@@ -66,69 +68,99 @@ string decode(string text, string key){
 		
 		temp += 65;
 		
-		t[i] = (char)temp;
+		text[i] = (char)temp;
 	}
 	
-	ofstream write;
-	write.open("result.txt");
-	write << t;
-	write.close();
-	
-	return t;
+	return text;
 }
 
 string upper(string text){
 	
-	string t = text;
-	
-	for(register int i = 0; i < t.size(); i++)
+	for(register int i = 0; i < text.size(); i++)
 		for(register int j = 0; j < 26; j++)
-			if(t[i] == LOW[j])
-				t[i] = UPP[j];
+			if(text[i] == LOW[j])
+				text[i] = UPP[j];
 	
-	return t;
+	return text;
 }
 
-void xdecode(string text){
+string cc_xdecrypt(string text){
 	
-	string t = text;
+	text = upper(text);
 	
-	ifstream read;
-	read.open(text.c_str());
-	if(read)
-		getline(read,t);
-	read.close();
-	
-	t = upper(t);
-	
-	ofstream write;
-	write.open("result.txt");
-	
-	string tt = t;
+	string write = "";
+	string text_c = text;
 	
 	for(register int i = 0; i < 25; i++){
 		
-		for(register int j = 0; j < t.size(); j++){
+		for(register int j = 0; j < text.size(); j++){
 			
-		if((int)t[j] < 65 or (int)t[j] > 90)
-			continue;
-		
-		int temp;
-		temp = ((int)t[j]) - 65;
-		temp -= i;
-		
-		while(temp < 0)
-			temp += 26;
-		
-		temp += 65;
-		
-		t[j] = (char)temp;
+			if((int)text[j] < 65 or (int)text[j] > 90)
+				continue;
+			
+			int temp;
+			temp = ((int)text[j]) - 65;
+			temp -= i;
+			
+			while(temp < 0)
+				temp += 26;
+			
+			temp += 65;
+			
+			text[j] = (char)temp;
 		}
 		
-		cout<<t<<"\n\n";
-		write<<t<<"\n\n";
-		t = tt;
+		write = write + text + "\n\n";
+		text = text_c;
 	}
 	
-	write.close();
+	return write;
+}
+
+string raw_or_file(string s){
+	
+	ifstream read;
+	read.open(s);
+	if(!read)
+		return s;
+	
+	string line;
+	s = "";
+	while(getline(read, line))
+		s = s + line + '\n';
+	s.pop_back();
+	
+	read.close();
+	return s;
+}
+
+string save_file(string t, string n){
+	
+	ofstream write;
+	ifstream read;
+	string name;
+	
+	int i = 0;
+	while(1){
+		
+		name = n;
+		if(i)
+			name += to_string(i);
+		name += ".txt";
+		
+		i++;
+		read.open(name);
+		if(read){
+			read.close();
+			continue;
+		}
+		read.close();
+		
+		write.open(name);
+		write << t;
+		write.close();
+		break;
+	}
+	
+	return name;
 }

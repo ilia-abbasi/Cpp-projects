@@ -2,58 +2,57 @@
 // Programmer : Ilia Abbasi
 
 #include <iostream>
-#include <conio.h>
 #include <string>
 #include <fstream>
-#include <sstream>
 using namespace std;
 
-char LOW[26] = { 'a' , 'b' , 'c' , 'd' , 'e', 'f' , 'g' , 'h' , 'i' , 'j' , 'k' , 'l' , 'm' , 'n' , 'o' , 'p' , 'q' , 'r' , 's' , 't' , 'u' , 'v' , 'w' , 'x' , 'y' , 'z'};
-char UPP[26] = { 'A' , 'B' , 'C' , 'D' , 'E', 'F' , 'G' , 'H' , 'I' , 'J' , 'K' , 'L' , 'M' , 'N' , 'O' , 'P' , 'Q' , 'R' , 'S' , 'T' , 'U' , 'V' , 'W' , 'X' , 'Y' , 'Z'};
+char LOW[26] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+char UPP[26] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-string decode(string text, string key);
-string save_file(string t);
+string vc_decrypt(string text, string key);
+string raw_or_file(string s);
+string save_file(string t, string n);
 string upper(string text);
 int toint(char c);
 
 int main(){
 	
-	string text, key;
+	string text, key, cipher, name;
 	
-	cout<<"Your code: \n\n";
-	getline(cin, text);
-	cout<<"\nThe key: \n\n";
-	getline(cin, key);
-	cout<<"\nResult: \n\n";
+	while(1){
+		cout<<"Your cipher: \n\n";
+		getline(cin, cipher);
+		cout<<"\nThe key: \n\n";
+		getline(cin, key);
+		cout<<"\nResult: \n\n";
+		
+		cipher = raw_or_file(cipher);
+		key = raw_or_file(key);
+		text = vc_decrypt(cipher, key);
+		
+		cout << text << "\n\n";
+		cout << "Name of the file to be saved(! to cancel): ";
+		cin >> name;
+		cin.ignore();
+		system("cls");
+		if(name == "!")
+			continue;
+		
+		cout << "Saved as " << save_file(text, name) << "\n--------\n\n";
+	}
 	
-	cout<<decode(text, key);
-	
-	getch();
+	return 0;
 }
 
-string decode(string text, string key){
+string vc_decrypt(string text, string key){
 	
-	string t = text;
-	string k = key;
+	key = upper(key);
 	
-	ifstream file;
-	file.open(text.c_str());
-	if(file)
-		getline(file, t);
-	file.close();
-	
-	file.open(key.c_str());
-	if(file)
-		getline(file, k);
-	file.close();
-	
-	k = upper(k);
-	
-	for(register int i = 0, j = 0; i < t.size(); i++){
+	for(register int i = 0, j = 0; i < text.size(); i++){
 		
-		int x,y,letter_case = 0;
-		x = (int)t[i];
-		y = toint(k[j]);
+		int x, y, letter_case = 0;
+		x = (int)text[i];
+		y = toint(key[j]);
 		
 		if(x > 64 and x < 91)
 			letter_case = 65;
@@ -66,17 +65,16 @@ string decode(string text, string key){
 		if(x < letter_case)
 			x += 26;
 		
-		t[i] = (char)x;
+		text[i] = (char)x;
 		
 		j++;
-		if(j >= k.size())
+		if(j >= key.size())
 			j = 0;
 	}
 	
-	save_file(t);
-	
-	return t;
+	return text;
 }
+
 int toint(char c){
 	
 	int re = (int)c;
@@ -86,6 +84,7 @@ int toint(char c){
 	
 	return re;
 }
+
 string upper(string text){
 	
 	string t = text;
@@ -97,7 +96,25 @@ string upper(string text){
 	
 	return t;
 }
-string save_file(string t){
+
+string raw_or_file(string s){
+	
+	ifstream read;
+	read.open(s);
+	if(!read)
+		return s;
+	
+	string line;
+	s = "";
+	while(getline(read, line))
+		s = s + line + '\n';
+	s.pop_back();
+	
+	read.close();
+	return s;
+}
+
+string save_file(string t, string n){
 	
 	ofstream write;
 	ifstream read;
@@ -106,22 +123,20 @@ string save_file(string t){
 	int i = 0;
 	while(1){
 		
-		name = "result";
-		stringstream ss;
-		ss << i;
-		name += ss.str();
+		name = n;
+		if(i)
+			name += to_string(i);
 		name += ".txt";
 		
 		i++;
-		read.open(name.c_str());
+		read.open(name);
 		if(read){
-			
 			read.close();
 			continue;
 		}
 		read.close();
 		
-		write.open(name.c_str());
+		write.open(name);
 		write << t;
 		write.close();
 		break;
